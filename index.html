@@ -79,9 +79,9 @@
             const elapsedTime = now - startTime;
 
             if (elapsedTime < 20000) {
-                // Directly display microseconds truncated to 4 digits
-                const microseconds = Math.floor(elapsedTime * 1000) % 10000; // Ensure only 4 digits
-                timeElement.textContent = microseconds.toString().padStart(4, '0');
+                const seconds = Math.floor(elapsedTime / 1000);
+                const microseconds = Math.floor((elapsedTime % 1000) * 1000);
+                timeElement.textContent = `${seconds}.${microseconds.toString().padStart(3, '0')}`;
                 labelElement.textContent = 'Calibrate 20 seconds';
                 requestAnimationFrame(updateClock);
             } else {

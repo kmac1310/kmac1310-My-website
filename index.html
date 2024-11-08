@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Countdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+        #clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #time {
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #label {
+            font-size: 24px;
+        }
+        #motivation {
+            font-size: 28px;
+            color: yellow;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #trademark {
+            font-size: 48px;
+            color: #4299e1;
+            font-weight: bold;
+            margin-top: 30px;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+        @media (max-width: 600px) {
+            #time {
+                font-size: 48px;
+            }
+            #label {
+                font-size: 18px;
+            }
+            #motivation {
+                font-size: 22px;
+            }
+            #trademark {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="clock-container">
+        <div id="time"></div>
+        <div id="label"></div>
+        <div id="motivation"></div>
+        <div id="trademark"></div>
+    </div>
+
+    <script>
+        const timeElement = document.getElementById('time');
+        const labelElement = document.getElementById('label');
+        const motivationElement = document.getElementById('motivation');
+        const trademarkElement = document.getElementById('trademark');
+
+        const startTime = performance.now();
+
+        function updateClock() {
+            const now = performance.now();
+            const elapsedTime = now - startTime;
+
+            if (elapsedTime < 20000) {
+                const microseconds = Math.floor(elapsedTime * 1000);
+                // Display only seconds, milliseconds, microseconds, and nanoseconds
+                const seconds = Math.floor(elapsedTime / 1000);
+                const milliseconds = Math.floor((elapsedTime % 1000));
+                const microsecondsPart = Math.floor(microseconds % 1000);
+                const nanosecondsPart = Math.floor((elapsedTime * 1000000) % 1000);
+
+                timeElement.textContent = `${seconds}.${milliseconds.toString().padStart(3, '0')}.${microsecondsPart.toString().padStart(3, '0')}.${nanosecondsPart.toString().padStart(3, '0')}`;
+                labelElement.textContent = 'Calibrate 20 seconds';
+                requestAnimationFrame(updateClock);
+            } else {
+                updateMinutesLeft();
+                motivationElement.textContent = 'You got the "time" to do it!!';
+                setTimeout(() => {
+                    trademarkElement.textContent = '1440TIME™';
+                    trademarkElement.style.opacity = '1';
+                }, 2000);
+            }
+        }
+
+        function updateMinutesLeft() {
+            const now = new Date();
+            // Total minutes in a day is 1440
+            const minutesLeft = 1440 - (now.getHours() * 60 + now.getMinutes());
+            timeElement.textContent = minutesLeft.toString();
+            labelElement.textContent = 'Minutes left today';
+            requestAnimationFrame(updateMinutesLeft);
+        }
+
+        updateClock();
+    </script>
+</body>
+</html>

@@ -79,14 +79,9 @@
             const elapsedTime = now - startTime;
 
             if (elapsedTime < 20000) {
+                // Directly display microseconds with padding
                 const microseconds = Math.floor(elapsedTime * 1000);
-                // Display only seconds, milliseconds, microseconds, and nanoseconds
-                const seconds = Math.floor(elapsedTime / 1000);
-                const milliseconds = Math.floor((elapsedTime % 1000));
-                const microsecondsPart = Math.floor(microseconds % 1000);
-                const nanosecondsPart = Math.floor((elapsedTime * 1000000) % 1000);
-
-                timeElement.textContent = `${seconds}.${milliseconds.toString().padStart(3, '0')}.${microsecondsPart.toString().padStart(3, '0')}.${nanosecondsPart.toString().padStart(3, '0')}`;
+                timeElement.textContent = microseconds.toString().padStart(4, '0');
                 labelElement.textContent = 'Calibrate 20 seconds';
                 requestAnimationFrame(updateClock);
             } else {
